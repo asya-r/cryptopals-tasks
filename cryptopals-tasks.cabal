@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 18e65cd7b5b6a4f09975244d52da1bc56976e1ff958a0a701e1d562b4b57f1ad
+-- hash: c2d4c92542a96072e793646dee879f38e1be52a612b3805accb4ef601f0f6a1f
 
 name:           cryptopals-tasks
 version:        0.1.0.0
@@ -30,6 +30,8 @@ library
       Ch1
       Ch2
       Ch3
+      Ch4
+      Utils
   other-modules:
       Paths_cryptopals_tasks
   hs-source-dirs:

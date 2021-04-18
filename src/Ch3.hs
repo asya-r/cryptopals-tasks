@@ -1,5 +1,6 @@
 module Ch3
   ( findByteKey
+  , scoreStrNaivImpl
   ) where
 
 import qualified Data.ByteString as BS
@@ -10,13 +11,15 @@ import Data.Word (Word8)
 import qualified Data.Map as Map
 import Data.Maybe (fromMaybe)
 import GHC.Float (int2Float)
-import Data.List (sortBy)
 import Data.Char (toLower)
+
+import Utils (sortTupleListByFst)
 
 findByteKey :: BS.ByteString -> (Word8, BS.ByteString)
 findByteKey str =
-  let (bestScore, itsChar) = last $ sortBy (\(a, _) (b, _) -> compare a b) (allBytesResults str)
-  in (itsChar, xorBS_Byte str itsChar)
+  let (bestScore, itsKey) = last $ sortTupleListByFst (allBytesResults str)
+      decodedString = xorBS_Byte str itsKey
+  in (itsKey, decodedString)
 
 xorBS_Byte :: BS.ByteString -> Word8 -> BS.ByteString
 xorBS_Byte str byte = BS.pack $ map (xor byte) (BS.unpack $ from16 str) where
