@@ -25,6 +25,7 @@ dependencies:
 - base64-bytestring
 - base16-bytestring
 - optparse-applicative
+- containers
 
 library:
   source-dirs: src

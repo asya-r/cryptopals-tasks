@@ -1,5 +1,5 @@
-module Ch2 (
-  xorBS
+module Ch2
+  ( xorBS
   ) where
 
 import Data.ByteString.Char8 (pack)
