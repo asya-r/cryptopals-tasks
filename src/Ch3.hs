@@ -4,7 +4,7 @@ module Ch3
   ) where
 
 import qualified Data.ByteString as BS
-import qualified Data.ByteString.Char8 as C
+import qualified Data.ByteString.Char8 as BS8
 import Data.Bits (xor)
 import Data.ByteString.Base16 (encode, decode)
 import Data.Word (Word8)
@@ -27,7 +27,7 @@ xorBS_Byte str byte = BS.pack $ map (xor byte) (BS.unpack $ from16 str) where
 
 allBytesResults :: BS.ByteString -> [(Float, Word8)]
 allBytesResults str = map (\byte -> ((res str byte), byte)) [0..255] where
-  res s = scoreStrNaivImpl . C.unpack . (xorBS_Byte s)
+  res s = scoreStrNaivImpl . BS8.unpack . (xorBS_Byte s)
 
 scoreStrNaivImpl :: String -> Float
 scoreStrNaivImpl str = (sum (map freq str)) / (int2Float $ length str) where
