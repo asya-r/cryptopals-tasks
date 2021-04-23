@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: c3e425b06158f6cabdaf49cf52b27e17fe7c353f59e1f7bbabb28e8f280b39ad
+-- hash: fb4dd5a0762ab107303610dce35b17e13c319015d239e6974bade64a64b95bee
 
 name:           cryptopals-tasks
 version:        0.1.0.0
@@ -45,6 +45,7 @@ library
     , bytestring
     , containers
     , optparse-applicative
+    , split
   default-language: Haskell2010
 
 executable cryptopals-tasks-exe
@@ -62,6 +63,7 @@ executable cryptopals-tasks-exe
     , containers
     , cryptopals-tasks
     , optparse-applicative
+    , split
   default-language: Haskell2010
 
 test-suite cryptopals-tasks-test
@@ -80,4 +82,5 @@ test-suite cryptopals-tasks-test
     , containers
     , cryptopals-tasks
     , optparse-applicative
+    , split
   default-language: Haskell2010

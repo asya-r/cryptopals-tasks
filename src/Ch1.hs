@@ -1,11 +1,16 @@
+{-# LANGUAGE OverloadedStrings #-}
 module Ch1
-    ( hexToBase64
+    ( ch1
+    , hexToBase64
     ) where
 
-import Data.ByteString.Char8 (ByteString)
+import qualified Data.ByteString.Char8 as BS8
 import qualified Data.ByteString.Base64 as Base64
-import qualified Data.ByteString.Base16 as Base16
 
-hexToBase64 :: ByteString -> ByteString
-hexToBase64 = Base64.encode . from16 where
-  from16 = fst . Base16.decode
+import Utils (from16)
+
+ch1 :: BS8.ByteString
+ch1 = hexToBase64 "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d"
+
+hexToBase64 :: BS8.ByteString -> BS8.ByteString
+hexToBase64 = Base64.encode . from16
