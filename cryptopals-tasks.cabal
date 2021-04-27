@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: fb4dd5a0762ab107303610dce35b17e13c319015d239e6974bade64a64b95bee
+-- hash: 5d1fc7e113e0fdc0caa4016dd69e3b785481b3a3c0b6a5dc407103ec560caa78
 
 name:           cryptopals-tasks
 version:        0.1.0.0
@@ -33,16 +33,20 @@ library
       Ch4
       Ch5
       Ch6
+      Ch7
+      Ch8
       Utils
   other-modules:
       Paths_cryptopals_tasks
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      MissingH
+    , base >=4.7 && <5
     , base16-bytestring
     , base64-bytestring
     , bytestring
+    , cipher-aes128
     , containers
     , optparse-applicative
     , split
@@ -56,10 +60,12 @@ executable cryptopals-tasks-exe
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      MissingH
+    , base >=4.7 && <5
     , base16-bytestring
     , base64-bytestring
     , bytestring
+    , cipher-aes128
     , containers
     , cryptopals-tasks
     , optparse-applicative
@@ -75,10 +81,12 @@ test-suite cryptopals-tasks-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      MissingH
+    , base >=4.7 && <5
     , base16-bytestring
     , base64-bytestring
     , bytestring
+    , cipher-aes128
     , containers
     , cryptopals-tasks
     , optparse-applicative
