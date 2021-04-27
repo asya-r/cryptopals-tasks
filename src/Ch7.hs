@@ -14,7 +14,7 @@ ch7 :: String
 ch7 = BS8.unpack $ decryptAES_ECB key encrypted where
   key = "YELLOW SUBMARINE"
   clean = Base64.decode . BS8.filter (/= '\n') . BS8.pack
-  encrypted = case clean $ unsafePerformIO $ readFile "7.txt" of
+  encrypted = case clean $ unsafePerformIO $ readFile "files/7.txt" of
     Left err -> BS8.pack err
     Right bs -> bs
 

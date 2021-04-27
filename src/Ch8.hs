@@ -11,7 +11,7 @@ import Data.List (nub, sortBy)
 import Utils (from16)
 
 ch8 :: BS.ByteString
-ch8 = findAES_ECB $ encode <$> (unsafePerformIO $ lines <$> readFile "8.txt") where
+ch8 = findAES_ECB $ encode <$> (unsafePerformIO $ lines <$> readFile "files/8.txt") where
   encode = from16 . BS8.pack
 
 findAES_ECB :: [BS.ByteString] -> BS.ByteString

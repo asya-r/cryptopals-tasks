@@ -13,7 +13,7 @@ import Ch3 (findByteKey, scoreStrNaivImpl)
 import Utils (sortTupleListByFst, from16)
 
 ch4 :: String
-ch4 = findEncryptedString $ encode <$> (unsafePerformIO $ lines <$> readFile "4.txt") where
+ch4 = findEncryptedString $ encode <$> (unsafePerformIO $ lines <$> readFile "files/4.txt") where
   encode = from16 <$> BS8.pack
 
 findEncryptedString :: [BS.ByteString] -> String

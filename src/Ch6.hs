@@ -18,7 +18,7 @@ import Ch5 (repeatingKeyXOR)
 import Ch1 (hexToBase64)
 
 ch6 :: BS.ByteString
-ch6 = findKey $ BS8.pack $ unsafePerformIO $ readFile "6.txt"
+ch6 = findKey $ BS8.pack $ unsafePerformIO $ readFile "files/6.txt"
 
 hammingDistance :: BS.ByteString -> BS.ByteString -> Int
 hammingDistance str1 str2 =
