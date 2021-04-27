@@ -29,6 +29,7 @@ dependencies:
 - split
 - MissingH
 - cipher-aes128
+- hosc
 
 library:
   source-dirs: src
