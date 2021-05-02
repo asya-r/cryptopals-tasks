@@ -12,7 +12,8 @@ import Ch6 (ch6)
 import Ch7 (ch7)
 import Ch8 (ch8)
 import Ch9 (ch9)
-import Utils (from16)
+import Ch10 (ch10)
+import Ch11 (ch11)
 
 data Task = Task
   { challenge :: Int }
@@ -42,4 +43,6 @@ check (Task 6) = putStrLn ch6
 check (Task 7) = putStrLn ch7
 check (Task 8) = print ch8
 check (Task 9) = print ch9
+check (Task 10) = putStrLn ch10
+check (Task 11) = ch11
 check _ = print "Haven't done this task yet"

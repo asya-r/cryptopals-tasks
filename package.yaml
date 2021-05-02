@@ -27,9 +27,9 @@ dependencies:
 - optparse-applicative
 - containers
 - split
-- MissingH
 - cipher-aes128
 - hosc
+- random >= 1.2.0
 
 library:
   source-dirs: src
