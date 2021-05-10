@@ -14,6 +14,7 @@ import Ch8 (ch8)
 import Ch9 (ch9)
 import Ch10 (ch10)
 import Ch11 (ch11)
+import Ch12 (ch12)
 
 data Task = Task
   { challenge :: Int }
@@ -45,4 +46,5 @@ check (Task 8) = print ch8
 check (Task 9) = print ch9
 check (Task 10) = putStrLn ch10
 check (Task 11) = ch11
+check (Task 12) = ch12
 check _ = print "Haven't done this task yet"

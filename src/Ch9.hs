@@ -12,6 +12,7 @@ ch9 = pkcs7 "YELLOW SUBMARINE" 20
 
 pkcs7 :: BS.ByteString -> Int -> BS.ByteString
 pkcs7 bs size =
-  let paddingSize  = size - (BS.length bs)
+  let lastBlockSize = mod (BS.length bs) size
+      paddingSize  = size - lastBlockSize
       paddingBytes = BS.replicate paddingSize (int_to_word8 paddingSize)
   in BS.append bs paddingBytes

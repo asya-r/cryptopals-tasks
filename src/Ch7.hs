@@ -37,9 +37,9 @@ decryptAES_CBC iv key encrypted = decryptAES (decCBC iv $ buildKey' key) encrypt
 
 encryptAES :: ([BS.ByteString] -> [BS.ByteString]) -> BS.ByteString -> BS.ByteString
 encryptAES encMode text =
-  let blocks = BS.pack <$> (chunksOf 16 (BS.unpack text))
-      blocksLastCompleted = (init blocks) ++ [pkcs7 (last blocks) 16]
-      encryptedBlocks = encMode blocksLastCompleted
+  let paddedText = pkcs7 text 16
+      blocks = BS.pack <$> (chunksOf 16 (BS.unpack paddedText))
+      encryptedBlocks = encMode blocks
   in BS.concat encryptedBlocks
 
 encECB :: AESKey128 -> [BS.ByteString] -> [BS.ByteString]

@@ -1,5 +1,6 @@
 module Ch8
   ( ch8
+  , countDupBlocks
   ) where
 
 import System.IO.Unsafe (unsafePerformIO)
@@ -17,6 +18,9 @@ ch8 = findAES_ECB $ encode <$> (unsafePerformIO $ lines <$> readFile "files/8.tx
 findAES_ECB :: [BS.ByteString] -> BS.ByteString
 findAES_ECB bss = last $ sortBy (\x y -> compare (count x) (count y)) bss where
   count = countDuplicates . blocks
+
+countDupBlocks :: BS.ByteString -> Int
+countDupBlocks = countDuplicates . blocks
 
 blocks :: BS.ByteString -> [BS.ByteString]
 blocks bs = hlp bs [] where
