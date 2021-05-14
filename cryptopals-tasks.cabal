@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: f749f8bf4006a237d94ff1db00f2cc731a428ca7681cee6291da8a83d87777ec
+-- hash: a36f3a18cd7adfc9464d7e50835e44e488d1c67b54186bc954d414b83c5d4992
 
 name:           cryptopals-tasks
 version:        0.1.0.0
@@ -31,6 +31,7 @@ library
       Ch10
       Ch11
       Ch12
+      Ch13
       Ch2
       Ch3
       Ch4
@@ -45,16 +46,19 @@ library
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , base16-bytestring
     , base64-bytestring
     , bytestring
     , cipher-aes128
     , containers
     , hosc
+    , http-types
     , optparse-applicative
     , random >=1.2.0
     , split
+    , text
   default-language: Haskell2010
 
 executable cryptopals-tasks-exe
@@ -65,7 +69,8 @@ executable cryptopals-tasks-exe
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , base16-bytestring
     , base64-bytestring
     , bytestring
@@ -73,9 +78,11 @@ executable cryptopals-tasks-exe
     , containers
     , cryptopals-tasks
     , hosc
+    , http-types
     , optparse-applicative
     , random >=1.2.0
     , split
+    , text
   default-language: Haskell2010
 
 test-suite cryptopals-tasks-test
@@ -87,7 +94,8 @@ test-suite cryptopals-tasks-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , base16-bytestring
     , base64-bytestring
     , bytestring
@@ -95,7 +103,9 @@ test-suite cryptopals-tasks-test
     , containers
     , cryptopals-tasks
     , hosc
+    , http-types
     , optparse-applicative
     , random >=1.2.0
     , split
+    , text
   default-language: Haskell2010

@@ -30,6 +30,9 @@ dependencies:
 - cipher-aes128
 - hosc
 - random >= 1.2.0
+- aeson
+- http-types
+- text
 
 library:
   source-dirs: src
