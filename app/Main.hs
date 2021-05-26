@@ -15,6 +15,7 @@ import Ch9 (ch9)
 import Ch10 (ch10)
 import Ch11 (ch11)
 import Ch12 (ch12)
+import Ch13 (ch13)
 import Ch14 (ch14)
 import Ch15 (ch15)
 
@@ -49,6 +50,7 @@ check (Task 9) = print ch9
 check (Task 10) = putStrLn ch10
 check (Task 11) = ch11
 check (Task 12) = ch12
+check (Task 13) = ch13
 check (Task 14) = ch14
 check (Task 15) = ch15
 check _ = print "Haven't done this task yet"
