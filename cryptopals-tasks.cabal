@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: a36f3a18cd7adfc9464d7e50835e44e488d1c67b54186bc954d414b83c5d4992
+-- hash: 49ed0e9ce01bef9607c6699e527173adead0444c68956d4355e433a2ea28fb51
 
 name:           cryptopals-tasks
 version:        0.1.0.0
@@ -32,6 +32,8 @@ library
       Ch11
       Ch12
       Ch13
+      Ch14
+      Ch15
       Ch2
       Ch3
       Ch4
@@ -46,7 +48,8 @@ library
   hs-source-dirs:
       src
   build-depends:
-      aeson
+      Unique
+    , aeson
     , base >=4.7 && <5
     , base16-bytestring
     , base64-bytestring
@@ -69,7 +72,8 @@ executable cryptopals-tasks-exe
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aeson
+      Unique
+    , aeson
     , base >=4.7 && <5
     , base16-bytestring
     , base64-bytestring
@@ -94,7 +98,8 @@ test-suite cryptopals-tasks-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      aeson
+      Unique
+    , aeson
     , base >=4.7 && <5
     , base16-bytestring
     , base64-bytestring

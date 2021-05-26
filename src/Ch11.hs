@@ -3,6 +3,7 @@ module Ch11
     ( ch11
     , detectEncryption
     , generateKey
+    , generateKeyPrefix
     ) where
 
 import qualified Data.ByteString as BS
@@ -43,3 +44,11 @@ generateKey = do
   ran <- getStdGen
   let (key, _) = genByteString 16 ran
   return key
+
+generateKeyPrefix :: IO (BS.ByteString, BS.ByteString)
+generateKeyPrefix = do
+  ran <- getStdGen
+  let (key, ran1) = genByteString 16 ran
+      (prefixLength, ran2) = randomR (0, 99) ran1
+      (prefix, _) = genByteString prefixLength ran2
+  return (key, prefix)

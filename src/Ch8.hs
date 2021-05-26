@@ -1,6 +1,7 @@
 module Ch8
   ( ch8
   , countDupBlocks
+  , blocks
   ) where
 
 import System.IO.Unsafe (unsafePerformIO)

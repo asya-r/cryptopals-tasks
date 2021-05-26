@@ -38,6 +38,7 @@ extra-deps:
 - cipher-aes128-0.7.0.5@sha256:95c6327b0c93839f56e74cace17d9b85292214975bac9e8b7c13ebb725ba3856,3777
 - random-1.2.0@sha256:30d72df4cc1d2fe2d445c88f0ee9d21965af7ce86660c43a6c32a6a1d90d51c9,6094
 - splitmix-0.1.0.3
+- Unique-0.4.7.8@sha256:9661f45aa31dde119a2114566166ea38b011a45653337045ee4ced75636533c0,2067
   # - base16-bytestring-1.0.1.0@sha256:33b9d57afa334d06485033e930c6b13fc760baf88fd8f715ae2f9a4b46e19a54,2641
 # - acme-missiles-0.3
 # - git: https://github.com/commercialhaskell/stack.git

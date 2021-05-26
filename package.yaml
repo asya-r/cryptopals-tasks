@@ -33,6 +33,7 @@ dependencies:
 - aeson
 - http-types
 - text
+- Unique
 
 library:
   source-dirs: src
