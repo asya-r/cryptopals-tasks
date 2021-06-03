@@ -5,6 +5,7 @@ module Ch15
     ) where
 
 import qualified Data.ByteString as BS
+import Data.ByteString.Internal (c2w)
 import Sound.OSC.Coding.Convert (word8_to_int)
 
 ch15 :: IO ()
@@ -16,6 +17,7 @@ stripPadding bs =
       mustBePadded = BS.take lastByte (BS.reverse bs)
       allEqual = BS.all (== BS.last bs) mustBePadded
       correctLen = (BS.length mustBePadded) == lastByte
-  in if allEqual && correctLen
+      correctRange = lastByte /= 0
+  in if allEqual && correctLen && correctRange
      then Just $ BS.reverse $ BS.drop lastByte (BS.reverse bs)
      else Nothing
