@@ -63,10 +63,10 @@ blockTargetOnly encFun blockSize = hlp encFun blockSize 0 where
          hlp encFun blockSize numAttackerBytes =
            let num = if numAttackerBytes == 0 then blockSize * 2 else numAttackerBytes + 1
                res = encFun $ BS.replicate num 0
-               equalBlocks = repeated (blocks res)
+               equalBlocks = repeated (blocks blockSize res)
            in case length equalBlocks of
              0 -> hlp encFun blockSize num
-             1 -> ((maximum $ elemIndices (head equalBlocks) (blocks res)) - 1, mod num blockSize)
+             1 -> ((maximum $ elemIndices (head equalBlocks) (blocks blockSize res)) - 1, mod num blockSize)
              otherwise -> error "there were equal blocks before"
 
 decryptByteAByte :: (BS.ByteString -> BS.ByteString) -> Int -> (Int, Int) -> String

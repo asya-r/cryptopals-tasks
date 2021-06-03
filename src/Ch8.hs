@@ -18,16 +18,16 @@ ch8 = findAES_ECB $ encode <$> (unsafePerformIO $ lines <$> readFile "files/8.tx
 
 findAES_ECB :: [BS.ByteString] -> BS.ByteString
 findAES_ECB bss = last $ sortBy (\x y -> compare (count x) (count y)) bss where
-  count = countDuplicates . blocks
+  count = countDuplicates . (blocks 16)
 
 countDupBlocks :: BS.ByteString -> Int
-countDupBlocks = countDuplicates . blocks
+countDupBlocks = countDuplicates . (blocks 16)
 
-blocks :: BS.ByteString -> [BS.ByteString]
-blocks bs = hlp bs [] where
-  hlp bs bls = if BS.length bs < 16
+blocks :: Int -> BS.ByteString -> [BS.ByteString]
+blocks blockSize bs = hlp bs [] where
+  hlp bs bls = if BS.length bs < blockSize
                then bls
-               else hlp (BS.drop 16 bs) (bls ++ [BS.take 16 bs])
+               else hlp (BS.drop blockSize bs) (bls ++ [BS.take blockSize bs])
 
 countDuplicates :: (Ord a) => [a] -> Int
 countDuplicates xs = (length xs) - (length (nub xs))
