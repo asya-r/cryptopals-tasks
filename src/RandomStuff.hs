@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings, ScopedTypeVariables #-}
-module Ch11
-    ( ch11
+module RandomStuff
+    ( checkOracle
     , detectEncryption
     , generateKey
     , generateKeyPrefix
@@ -9,14 +9,10 @@ module Ch11
 
 import qualified Data.ByteString as BS
 import qualified Data.ByteString.Char8 as BS8
-import System.Random (genByteString, mkStdGen, getStdGen, StdGen, random, randomR)
+import System.Random (genByteString, getStdGen, random, randomR)
 
-import Ch7 (encryptAES_ECB, encryptAES_CBC)
-import Ch8 (countDupBlocks)
-
-ch11 = do
-  (detected, actual) <- checkOracle
-  print $ "Detected: " ++ detected ++ ", actual: " ++ actual
+import AES (encryptAES_ECB, encryptAES_CBC)
+import Utils (countDupBlocks)
 
 checkOracle :: IO (String, String)
 checkOracle = do

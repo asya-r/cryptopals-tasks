@@ -1,8 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Ch3
-  ( ch3
-  , findByteKey
+module SingleByteXORAttack
+  ( findByteKey
   , scoreStrNaivImpl
+  , findEncryptedString
   ) where
 
 import qualified Data.ByteString as BS
@@ -14,10 +14,7 @@ import Data.Maybe (fromMaybe)
 import GHC.Float (int2Float)
 import Data.Char (toLower)
 
-import Utils (sortTupleListByFst, from16)
-
-ch3 :: (Word8, BS.ByteString)
-ch3 = findByteKey $ from16 "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
+import Utils (sortTupleListByFst)
 
 findByteKey :: BS.ByteString -> (Word8, BS.ByteString)
 findByteKey str =
@@ -47,3 +44,10 @@ letterFrequency = Map.fromList
   , ('p', 1.82), ('b', 1.49), ('v', 1.11)
   , ('k', 0.69), ('x', 0.17), ('q', 0.11)
   , ('j', 0.10), ('z', 0.07), (' ', 4.00) ] -- space is a workaround to improve scoring
+
+findEncryptedString :: [BS.ByteString] -> String
+findEncryptedString strings =
+  let allBest = map (findByteKey) strings -- [(key, decodedStr)]
+      changeKeyToScore = (\bs -> (scoreStrNaivImpl bs, bs)) . BS8.unpack . snd -- [(keyScore, decodedStr)]
+      sortedBest = sortTupleListByFst (map changeKeyToScore allBest)
+  in snd $ last $ sortedBest

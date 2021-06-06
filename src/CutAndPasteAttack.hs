@@ -1,29 +1,27 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Ch13
-    ( ch13
+module CutAndPasteAttack
+    ( cutAndPasteAttack
     ) where
 
 import qualified Data.ByteString.Char8 as BS8
 import qualified Data.ByteString as BS
 import Network.HTTP.Types.URI (parseQuery)
 
-import Ch7 (encryptAES_ECB, decryptAES_ECB)
-import Ch11 (generateKey)
-import Ch15 (stripPadding)
-import Ch9 (pkcs7)
+import AES (encryptAES_ECB, decryptAES_ECB)
+import PKCS7 (pkcs7, stripPadding)
 
-ch13 :: IO ()
-ch13 = do
+cutAndPasteAttack :: BS.ByteString -> String
+cutAndPasteAttack key =
   let admin_suf = BS.concat ["aaaaaaaaaa", pkcs7 "admin" 16, "a"]
-      admin_suf_encrypted = BS.take 16 $ BS.drop 16 (BS8.pack $ server "get_profile" admin_suf)
+      admin_suf_encrypted = BS.take 16 $ BS.drop 16 (BS8.pack $ server key "get_profile" admin_suf)
       email = "aaaaaa@aaaa.a"
-      valid_prefix_encrypted = BS.take 32 (BS8.pack $ server "get_profile" email)
-  print $ server "get_role" (BS.concat [valid_prefix_encrypted, admin_suf_encrypted])
+      valid_prefix_encrypted = BS.take 32 (BS8.pack $ server key "get_profile" email)
+  in server key "get_role" (BS.concat [valid_prefix_encrypted, admin_suf_encrypted])
 
-server :: String -> BS.ByteString -> String
-server mode input =
-  let key = "\146|\EM\v\189\&40\145\166\201\a\189Z(\128\216"
-  in case mode of
+
+server :: BS.ByteString -> String -> BS.ByteString -> String
+server key mode input =
+  case mode of
     "get_profile" ->
       let query = profileToQuery $ profileFromEmail $ BS8.unpack input
           encrypted = encryptAES_ECB key query

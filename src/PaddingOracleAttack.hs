@@ -1,27 +1,18 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Ch17
-    ( ch17
+module PaddingOracleAttack
+    ( serverEncrypt
+    , serverCheckPadding
+    , paddingOracleAttack
     ) where
 
 import qualified Data.ByteString as BS
-import System.Random (randomR, getStdRandom)
 import Data.Bits (xor)
 import Sound.OSC.Coding.Convert (int_to_word8)
 import Data.List (inits)
 
-import Ch7 (decryptAES_CBC, encryptAES_CBC)
-import Ch15 (stripPadding)
-import Ch11 (generateIvKey)
-import qualified Ch8 as Ch8
-import Utils (decodeB64)
-
-ch17 :: IO ()
-ch17 = do
-  (iv, key) <- generateIvKey
-  strings <- lines <$> readFile "files/17.txt"
-  lineNum <- getStdRandom (randomR (0,(length strings) - 1))
-  let encrypted = serverEncrypt iv key (decodeB64 $ strings !! lineNum)
-  print $ paddingOracleAttack encrypted (serverCheckPadding iv key)
+import AES (decryptAES_CBC, encryptAES_CBC)
+import PKCS7 (stripPadding)
+import qualified Utils as Utils
 
 serverEncrypt :: BS.ByteString -> BS.ByteString -> BS.ByteString -> BS.ByteString
 serverEncrypt iv key b64 = encryptAES_CBC iv key b64
@@ -33,10 +24,10 @@ serverCheckPadding iv key encrypted =
     Nothing -> False
     Just _ -> True
 
-paddingOracleAttack :: BS.ByteString -> (BS.ByteString -> Bool) -> BS.ByteString
-paddingOracleAttack encrypted checkFun =
+paddingOracleAttack :: BS.ByteString -> BS.ByteString -> (BS.ByteString -> Bool) -> BS.ByteString
+paddingOracleAttack iv encrypted checkFun =
   let blockSize = 16
-      blocks = Ch8.blocks blockSize encrypted
+      blocks = Utils.blocks blockSize (BS.concat [iv, encrypted])
       decryptLastBlock encrCropped decrypted =
         if (BS.length decrypted == blockSize) || (BS.length encrCropped <= blockSize)
         then decrypted

@@ -1,7 +1,6 @@
 {-# LANGUAGE OverloadedStrings, ScopedTypeVariables #-}
-module Ch12
-    ( ch12
-    , decryptByteAByte
+module ByteAtATimeAttack
+    ( decryptByteAByte
     , ecbDecrypt
     ) where
 
@@ -9,24 +8,11 @@ import qualified Data.ByteString as BS
 import qualified Data.Map as Map
 import qualified Data.ByteString.Char8 as BS8
 import Data.ByteString.Internal (w2c)
-import System.Random (genByteString, getStdGen)
 import Data.List (elemIndices)
 import Data.List.Unique (repeated)
 
-import Ch11 (detectEncryption, generateKey)
-import Ch9 (pkcs7)
-import Ch7 (encryptAES_ECB)
-import Ch8 (countDupBlocks, blocks)
-import Utils (decodeB64)
-
-ch12 :: IO ()
-ch12 = do
-  encodedPlaintext <- readFile "files/12.txt"
-  key <- generateKey
-  let plaintext = decodeB64 encodedPlaintext
-      oracleFunction (bs::BS.ByteString) = encryptAES_ECB key $ BS8.concat [bs, plaintext]
-      decrypted = ecbDecrypt oracleFunction
-  putStrLn decrypted
+import RandomStuff (detectEncryption)
+import Utils (blocks)
 
 ecbDecrypt :: (BS.ByteString -> BS.ByteString) -> String
 ecbDecrypt encFun =
@@ -42,21 +28,6 @@ discoverBlockSize encFun = hlp (BS.length $ encFun $ BS.replicate 1 0) 1 where
     let lenNew = len + 1
         curSize = BS.length $ encFun $ BS.replicate lenNew 0
     in if (curSize > prevSize) && (prevSize /= 0) then curSize - prevSize else hlp curSize lenNew
-
-decryptByteAByte' :: (BS.ByteString -> BS.ByteString) -> Int -> String
-decryptByteAByte' encFun blockSize = hlp encFun "" blockSize 1 (encSize encFun) where
-  encSize encFun = BS.length $ encFun ""
-  hlp encFun decrypted blockSize curByte encSize
-    | encSize == curByte + 1 = decrypted
-    | otherwise =
-       let myStringFirstAs = BS8.pack $ replicate (blockSize - (mod curByte blockSize)) 'A'
-           myString = BS8.concat [myStringFirstAs, BS8.pack decrypted]
-           encryptSym s = BS.take ((div curByte blockSize + 1) * 16) $ encFun $ BS8.concat [myString, (BS.pack [s])]
-           codebook = Map.fromList $ map (\s -> (encryptSym s, s)) [0..255]
-           unknown = BS.take ((div curByte blockSize + 1) * 16) (encFun myStringFirstAs)
-       in case Map.lookup unknown codebook of
-                              Nothing -> decrypted
-                              Just c -> hlp encFun (decrypted ++ [w2c c]) blockSize (curByte + 1) encSize
 
 blockTargetOnly :: (BS.ByteString -> BS.ByteString) -> Int -> (Int, Int) -- index of first target block, num of bytes
 blockTargetOnly encFun blockSize = hlp encFun blockSize 0 where

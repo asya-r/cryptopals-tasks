@@ -1,6 +1,6 @@
-module Ch6
-  ( ch6
-  , findKey
+module RepeatingKeyXOR
+  ( findKey
+  , repeatingKeyXOR
   ) where
 
 import qualified Data.ByteString.Char8 as BS8
@@ -10,15 +10,15 @@ import qualified Data.ByteString.Base64 as Base64
 import GHC.Float (int2Float)
 import Data.List.Split (chunksOf)
 import Data.List (transpose, sortBy)
-import System.IO.Unsafe (unsafePerformIO)
 
-import Utils (slices, sortTupleListByFst)
-import Ch3 (findByteKey, scoreStrNaivImpl)
-import Ch5 (repeatingKeyXOR)
-import Ch1 (hexToBase64)
+import Utils (slices, sortTupleListByFst, xorBS)
+import SingleByteXORAttack (findByteKey, scoreStrNaivImpl)
 
-ch6 :: String
-ch6 = findKey $ BS8.pack $ unsafePerformIO $ readFile "files/6.txt"
+repeatingKeyXOR :: BS.ByteString -> BS.ByteString -> BS.ByteString
+repeatingKeyXOR str key =
+  let str'    = BS.unpack str
+      key'    = take (length str') (cycle $ BS.unpack key)
+  in xorBS str (BS.pack key')
 
 hammingDistance :: BS.ByteString -> BS.ByteString -> Int
 hammingDistance str1 str2 =

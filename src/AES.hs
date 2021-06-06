@@ -1,27 +1,19 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Ch7
-  ( ch7
-  , encryptAES_ECB
+module AES
+  ( encryptAES_ECB
   , encryptAES_CBC
   , decryptAES_ECB
   , decryptAES_CBC
+  , findAES_ECB
   ) where
 
-import Crypto.Cipher.AES128 (unEcb, buildKey, AESKey128, encryptBlock, decryptBlock)
+import Crypto.Cipher.AES128 (buildKey, AESKey128, encryptBlock, decryptBlock)
 import qualified Data.ByteString as BS
-import qualified Data.ByteString.Char8 as BS8
-import System.IO.Unsafe (unsafePerformIO)
-import qualified Data.ByteString.Base64 as Base64
 import Data.List.Split (chunksOf)
+import Data.List (sortBy)
 
-import Ch9 (pkcs7)
-import Ch2 (xorBS)
-import Utils (decodeB64)
-
-ch7 :: String
-ch7 = BS8.unpack $ decryptAES_ECB key encrypted where
-  key = "YELLOW SUBMARINE"
-  encrypted = decodeB64 $ unsafePerformIO $ readFile "files/7.txt"
+import PKCS7 (pkcs7)
+import Utils (countDuplicates, blocks, xorBS)
 
 encryptAES_ECB :: BS.ByteString -> BS.ByteString -> BS.ByteString
 encryptAES_ECB key text = encryptAES (encECB $ buildKey' key) text
@@ -70,3 +62,7 @@ buildKey' :: BS.ByteString -> AESKey128
 buildKey' key = case (buildKey key :: Maybe AESKey128) of
   Nothing -> error "key size mismatch"
   Just aes128key -> aes128key
+
+findAES_ECB :: [BS.ByteString] -> BS.ByteString
+findAES_ECB bss = last $ sortBy (\x y -> compare (count x) (count y)) bss where
+  count = countDuplicates . (blocks 16)

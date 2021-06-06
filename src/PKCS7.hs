@@ -1,15 +1,18 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Ch15
-    ( ch15
-    , stripPadding
-    ) where
+module PKCS7
+  ( pkcs7
+  , stripPadding
+  ) where
 
 import qualified Data.ByteString as BS
-import Data.ByteString.Internal (c2w)
-import Sound.OSC.Coding.Convert (word8_to_int)
+import Sound.OSC.Coding.Convert (int_to_word8, word8_to_int)
 
-ch15 :: IO ()
-ch15 = print $ stripPadding $ BS.concat ["ICE ICE BABY", BS.pack [1, 2, 3, 4]]
+pkcs7 :: BS.ByteString -> Int -> BS.ByteString
+pkcs7 bs size =
+  let lastBlockSize = mod (BS.length bs) size
+      paddingSize  = size - lastBlockSize
+      paddingBytes = BS.replicate paddingSize (int_to_word8 paddingSize)
+  in BS.append bs paddingBytes
 
 stripPadding :: BS.ByteString -> Maybe BS.ByteString
 stripPadding bs =
