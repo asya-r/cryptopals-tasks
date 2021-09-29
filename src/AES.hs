@@ -8,9 +8,12 @@ module AES
   ) where
 
 import Crypto.Cipher.AES128 (buildKey, AESKey128, encryptBlock, decryptBlock)
+import Data.Bits (xor)
 import qualified Data.ByteString as BS
 import Data.List.Split (chunksOf)
 import Data.List (sortBy)
+import Sound.OSC.Coding.Byte (encode_u16)
+import Util (unzipWith)
 
 import PKCS7 (pkcs7)
 import Utils (countDuplicates, blocks, xorBS)
@@ -66,3 +69,7 @@ buildKey' key = case (buildKey key :: Maybe AESKey128) of
 findAES_ECB :: [BS.ByteString] -> BS.ByteString
 findAES_ECB bss = last $ sortBy (\x y -> compare (count x) (count y)) bss where
   count = countDuplicates . (blocks 16)
+
+cryptAES_CTR :: AESKey128 -> Int -> BS.ByteString -> BS.ByteString
+cryptAES_CTR key nonce text = BS.pack $ unzipWith xor $ zip (BS.unpack text) (BS.unpack infEncCounter) where
+  infEncCounter = BS.concat $ map (\x -> encryptBlock key (encode_u16 x)) (iterate (+1) nonce)
