@@ -5,15 +5,20 @@ module AES
   , decryptAES_ECB
   , decryptAES_CBC
   , findAES_ECB
+  , buildKey'
+  , cryptAES_CTR
   ) where
 
 import Crypto.Cipher.AES128 (buildKey, AESKey128, encryptBlock, decryptBlock)
 import Data.Bits (xor)
 import qualified Data.ByteString as BS
+import qualified Data.ByteString.Char8 as BS8
+import qualified Data.ByteString.Lazy as BSL
 import Data.List.Split (chunksOf)
 import Data.List (sortBy)
-import Sound.OSC.Coding.Byte (encode_u16)
 import Util (unzipWith)
+import qualified Data.Bits as BTS
+import qualified Data.Word as W
 
 import PKCS7 (pkcs7)
 import Utils (countDuplicates, blocks, xorBS)
@@ -71,5 +76,17 @@ findAES_ECB bss = last $ sortBy (\x y -> compare (count x) (count y)) bss where
   count = countDuplicates . (blocks 16)
 
 cryptAES_CTR :: AESKey128 -> Int -> BS.ByteString -> BS.ByteString
-cryptAES_CTR key nonce text = BS.pack $ unzipWith xor $ zip (BS.unpack text) (BS.unpack infEncCounter) where
-  infEncCounter = BS.concat $ map (\x -> encryptBlock key (encode_u16 x)) (iterate (+1) nonce)
+cryptAES_CTR key nonce text = BS.pack $ unzipWith xor $ zip (BS.unpack text) (BS.unpack encCounter) where
+  encCounter = BS.concat $ map (\x -> encryptBlock key $ BS.concat [lilEndian 0, lilEndian x]) [0..10]--(iterate (+1) nonce)
+
+lilEndian :: W.Word64 -> BS.ByteString
+lilEndian = BS.pack . reverse . fromWord64
+
+fromWord64 :: W.Word64 -> [W.Word8]
+fromWord64 bl = reverse $ helper (fromIntegral bl :: Integer) 8
+  where helper _ 0 = []
+        helper b c =
+          let w8 = fromIntegral b :: W.Word8
+              shifted = BTS.shiftR b 8
+          in
+            w8 : helper shifted (c-1)
