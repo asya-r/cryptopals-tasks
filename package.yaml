@@ -28,12 +28,14 @@ dependencies:
 - containers
 - split
 - cipher-aes128
-- hosc
+- hosc >= 0.18.1
 - random >= 1.2.0
 - aeson
 - http-types
 - text
 - Unique
+- ghc-lib-parser
+- binary
 
 library:
   source-dirs: src

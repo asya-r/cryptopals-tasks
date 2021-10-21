@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.4.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 3859af78fb8d79fc82318a471251176cdb0717bbac29667cc9089d30809186cc
+-- hash: 490d900016055c46675c97754a104a5db67179287378b2028d928fee99819956
 
 name:           cryptopals-tasks
 version:        0.1.0.0
@@ -48,10 +48,12 @@ library
     , base >=4.7 && <5
     , base16-bytestring
     , base64-bytestring
+    , binary
     , bytestring
     , cipher-aes128
     , containers
-    , hosc
+    , ghc-lib-parser
+    , hosc >=0.18.1
     , http-types
     , optparse-applicative
     , random >=1.2.0
@@ -72,11 +74,13 @@ executable cryptopals-tasks-exe
     , base >=4.7 && <5
     , base16-bytestring
     , base64-bytestring
+    , binary
     , bytestring
     , cipher-aes128
     , containers
     , cryptopals-tasks
-    , hosc
+    , ghc-lib-parser
+    , hosc >=0.18.1
     , http-types
     , optparse-applicative
     , random >=1.2.0
@@ -98,11 +102,13 @@ test-suite cryptopals-tasks-test
     , base >=4.7 && <5
     , base16-bytestring
     , base64-bytestring
+    , binary
     , bytestring
     , cipher-aes128
     , containers
     , cryptopals-tasks
-    , hosc
+    , ghc-lib-parser
+    , hosc >=0.18.1
     , http-types
     , optparse-applicative
     , random >=1.2.0

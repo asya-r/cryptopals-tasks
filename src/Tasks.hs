@@ -13,7 +13,7 @@ import Network.HTTP.Types.URI (parseQuery)
 import Utils (hexToBase64, xorBS, from16, decodeB64)
 import SingleByteXORAttack (findByteKey, findEncryptedString)
 import RandomStuff (generateKey, generateKeyPrefix)
-import AES (encryptAES_ECB, decryptAES_CBC, findAES_ECB, decryptAES_ECB)
+import AES (encryptAES_ECB, decryptAES_CBC, findAES_ECB, decryptAES_ECB, buildKey', cryptAES_CTR)
 import ByteAtATimeAttack (ecbDecrypt)
 import PKCS7 (pkcs7, stripPadding)
 import PaddingOracleAttack (serverEncrypt, serverCheckPadding, paddingOracleAttack)
@@ -39,7 +39,8 @@ tasks = [ ch1
         , ch14
         , ch15
         , ch16
-        , ch17 ]
+        , ch17
+        , ch18 ]
 
 ch1 :: IO ()
 ch1 = print $ hexToBase64 "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d"
@@ -143,3 +144,9 @@ ch17 = do
   lineNum <- getStdRandom (randomR (0,(length strings) - 1))
   let encrypted = serverEncrypt iv key (decodeB64 $ strings !! lineNum)
   print $ paddingOracleAttack iv encrypted (serverCheckPadding iv key)
+
+ch18 :: IO ()
+ch18 = do
+  let key = buildKey' "YELLOW SUBMARINE"
+      text = decodeB64 "L77na/nrFsKvynd6HzOoG7GHTLXsTVu9qvY/2syLXzhPweyyMTJULu/6/kXX0KSvoOLSFQ=="
+  print $ cryptAES_CTR key 0 text

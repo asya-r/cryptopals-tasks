@@ -39,6 +39,7 @@ extra-deps:
 - random-1.2.0@sha256:30d72df4cc1d2fe2d445c88f0ee9d21965af7ce86660c43a6c32a6a1d90d51c9,6094
 - splitmix-0.1.0.3
 - Unique-0.4.7.8@sha256:9661f45aa31dde119a2114566166ea38b011a45653337045ee4ced75636533c0,2067
+- hosc-0.19.1@sha256:e969ae92fdc7a53c4e958ea35acc097317635522684b1f68705ceda34af43461,2017
   # - base16-bytestring-1.0.1.0@sha256:33b9d57afa334d06485033e930c6b13fc760baf88fd8f715ae2f9a4b46e19a54,2641
 # - acme-missiles-0.3
 # - git: https://github.com/commercialhaskell/stack.git
